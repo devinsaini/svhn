@@ -1,0 +1,4 @@
+notebooks/
+two/
+.ipynb_checkpoints/
+jupyter/*.pyc
