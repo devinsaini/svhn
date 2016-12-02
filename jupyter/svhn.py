@@ -82,14 +82,14 @@ def read_process_h5(filename):
     
 def createImageandLabelData(datapoint, output_size):
     rawimg = misc.imread('../inputs/train/'+datapoint['filename'])
-    img = np.array(misc.imresize(rawimg, size=output_size, interp='lanczos'))
+    img = np.array(misc.imresize(rawimg, size=output_size, interp='bilinear'))
     labels = datapoint['labels']
     
     return img, labels
 
 def createImageData(datapoint, output_size):
     rawimg = misc.imread('../inputs/train/'+datapoint['filename'])
-    img = np.array(misc.imresize(rawimg, size=output_size, interp='lanczos'))
+    img = np.array(misc.imresize(rawimg, size=output_size, interp='bilinear'))
     return img, rawimg.shape
 
 def createRelativeCoordinates(datapoint, idx, imsize):

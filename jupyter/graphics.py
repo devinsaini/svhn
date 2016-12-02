@@ -15,9 +15,9 @@ def displaySamples(X, ytrue=None, ypred=None, ycounttrue=None, ycountpred=None, 
         if ycoordtrue is not None:
             ax.add_patch(patches.Rectangle((ycoordtrue[idx][1],ycoordtrue[idx][0]),ycoordtrue[idx][3],ycoordtrue[idx][2], fill=False, edgecolor='red'))
             
-        ax.text(0, -12, "count: {}[{}]".format("X" if ycountpred is None else ycountpred[idx], ycounttrue[idx]), ha="left", va="bottom", size="medium",color="green" if ycountpred is not None and ycountpred[idx]==ycounttrue[idx] else "red")
+        ax.text(0, -12, "count: {}[{}]".format("-" if ycountpred is None else ycountpred[idx], ycounttrue[idx]), ha="left", va="bottom", size="medium",color="green" if ycountpred is not None and ycountpred[idx]==ycounttrue[idx] else "red")
         
-        ax.text(0, -4, "count: {}[{}]".format("X" if ypred is None else ypred[idx], ytrue[idx]), ha="left", va="bottom", size="medium",color="green" if ypred is not None and ypred[idx]==ytrue[idx] else "red")
+        ax.text(0, -4, "label: {}[{}]".format("-" if ypred is None else ypred[idx], ytrue[idx]), ha="left", va="bottom", size="medium",color="green" if ypred is not None and ypred[idx]==ytrue[idx] else "red")
         
 
 def showTrainingHistory(history):
