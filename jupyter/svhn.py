@@ -80,15 +80,15 @@ def read_process_h5(filename):
     return data_list
     
     
-def createImageandLabelData(datapoint, output_size):
-    rawimg = misc.imread('../inputs/train/'+datapoint['filename'])
+def createImageandLabelData(datapoint, output_size, path):
+    rawimg = misc.imread(path+datapoint['filename'])
     img = np.array(misc.imresize(rawimg, size=output_size, interp='bilinear'))
     labels = datapoint['labels']
     
     return img, labels
 
-def createImageData(datapoint, output_size):
-    rawimg = misc.imread('../inputs/train/'+datapoint['filename'])
+def createImageData(datapoint, output_size, path):
+    rawimg = misc.imread(path+datapoint['filename'])
     img = np.array(misc.imresize(rawimg, size=output_size, interp='bilinear'))
     return img, rawimg.shape
 

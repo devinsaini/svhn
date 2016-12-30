@@ -3,21 +3,20 @@ import matplotlib.patches as patches
 import numpy as np
 from keras import backend as K
 
-def displaySamples(X, ytrue=None, ypred=None, ycounttrue=None, ycountpred=None, ycoordtrue=None):
+def displaySamples(X, ylabels=None, ylabelspred=None, ycounttrue=None, ycountpred=None, index=None):
     # sample random 8 images
-    indices = np.random.randint(0,X.shape[0], size=8)
+    samples = np.random.randint(0,X.shape[0], size=8)
     
     plt.figure(figsize=(12,4))
-    for i, idx in enumerate(indices):
+    for i, idx in enumerate(samples):
         ax = plt.subplot(2,4,i+1)
         ax.imshow(X[idx])
         
-        if ycoordtrue is not None:
-            ax.add_patch(patches.Rectangle((ycoordtrue[idx][1],ycoordtrue[idx][0]),ycoordtrue[idx][3],ycoordtrue[idx][2], fill=False, edgecolor='red'))
-            
-        ax.text(0, -12, "count: {}[{}]".format("-" if ycountpred is None else ycountpred[idx], ycounttrue[idx]), ha="left", va="bottom", size="medium",color="green" if ycountpred is not None and ycountpred[idx]==ycounttrue[idx] else "red")
+        if index is not None:
+            assert (len(ylabels)==1), "ylabels, ylabelspred can have only one element if index is given"
+        ax.text(0, -12, "count: {} [{}]".format("-" if ycountpred is None else ycountpred[idx], ycounttrue[idx]), ha="left", va="bottom", size="medium",color="green" if ycountpred is not None and ycountpred[idx]==ycounttrue[idx] else "red")
         
-        ax.text(0, -4, "label: {}[{}]".format("-" if ypred is None else ypred[idx], ytrue[idx]), ha="left", va="bottom", size="medium",color="green" if ypred is not None and ypred[idx]==ytrue[idx] else "red")
+        ax.text(0, -4, "label: {} [{}]".format("-" if ylabelspred is None else ylabelspred[idx], ylabels[idx]), ha="left", va="bottom", size="medium",color="green" if ylabelspred is not None and np.array_equal(ylabelspred[idx],ylabels[idx]) else "red")
         
 
 def showTrainingHistory(history):
