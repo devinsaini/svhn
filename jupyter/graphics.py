@@ -42,14 +42,22 @@ def showCNNConv(model, n, X_sample):
     layeroutfunc = K.function([model.layers[0].input, K.learning_phase()],[model.layers[n].output])
     layerout = np.array(layeroutfunc([X_sample[np.newaxis,:], False]))[0]
     l = np.rollaxis(layerout, 3, 1)[0]
-    print l.shape
+    print "{} convolutions in layer {}".format(l.shape[0], n)
     
-    plt.figure(figsize=(12,12))
-    plt.subplots_adjust(hspace=0.01)
-    for i in range(0,l.shape[0]):
-        plt.subplot(8,8,i+1)
-        plt.imshow(l[i], cmap='gray', interpolation='none')
-        plt.axis('off')
+    # calculate the minimum number of columns required
+    ncols = int(np.ceil(np.sqrt(l.shape[0])))
+    
+    plt.figure(figsize=(12,3))
+    plt.subplots_adjust(hspace=0.01, wspace=0.01)
+    ax_main = plt.subplot2grid((ncols,3*ncols), (0,0), rowspan=ncols, colspan=ncols)
+    ax_main.imshow(X_sample)
+    ax_main.axis('off')
+    ax_main.set_title('Input image')
+    
+    for i in range(0, l.shape[0]):
+        ax = plt.subplot2grid((ncols,3*ncols), (int(i/ncols), ncols+2*int(i%ncols)), rowspan=1, colspan=2)
+        ax.imshow(l[i], cmap='gray', interpolation='none')
+        ax.axis('off')
 
 def showDenseConv(model, n, X_sample):
     layeroutfunc = K.function([model.layers[0].input, K.learning_phase()],[model.layers[n].output])
