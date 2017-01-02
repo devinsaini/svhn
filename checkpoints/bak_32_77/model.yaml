@@ -1,0 +1,320 @@
+class_name: Model
+config:
+  input_layers:
+  - [train_input_img, 0, 0]
+  - [train_input_idx, 0, 0]
+  layers:
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple [null, 32, 77, 3]
+      input_dtype: float32
+      name: train_input_img
+      sparse: false
+    inbound_nodes: []
+    name: train_input_img
+  - class_name: Model
+    config:
+      input_layers:
+      - [input_1, 0, 0]
+      layers:
+      - class_name: InputLayer
+        config:
+          batch_input_shape: !!python/tuple [null, 32, 77, 3]
+          input_dtype: float32
+          name: input_1
+          sparse: false
+        inbound_nodes: []
+        name: input_1
+      - class_name: Convolution2D
+        config:
+          W_constraint: null
+          W_regularizer: null
+          activation: tanh
+          activity_regularizer: null
+          b_constraint: null
+          b_regularizer: null
+          bias: true
+          border_mode: valid
+          dim_ordering: tf
+          init: glorot_uniform
+          name: convolution2d_1
+          nb_col: 3
+          nb_filter: 32
+          nb_row: 3
+          subsample: &id001 !!python/tuple [1, 1]
+          trainable: true
+        inbound_nodes:
+        - - [input_1, 0, 0]
+        name: convolution2d_1
+      - class_name: Convolution2D
+        config:
+          W_constraint: null
+          W_regularizer: null
+          activation: relu
+          activity_regularizer: null
+          b_constraint: null
+          b_regularizer: null
+          bias: true
+          border_mode: valid
+          dim_ordering: tf
+          init: glorot_uniform
+          name: convolution2d_2
+          nb_col: 3
+          nb_filter: 32
+          nb_row: 3
+          subsample: *id001
+          trainable: true
+        inbound_nodes:
+        - - [convolution2d_1, 0, 0]
+        name: convolution2d_2
+      - class_name: Dropout
+        config: {name: dropout_1, p: 0.2, trainable: true}
+        inbound_nodes:
+        - - [convolution2d_2, 0, 0]
+        name: dropout_1
+      - class_name: MaxPooling2D
+        config:
+          border_mode: valid
+          dim_ordering: tf
+          name: maxpooling2d_1
+          pool_size: &id002 !!python/tuple [2, 2]
+          strides: *id002
+          trainable: true
+        inbound_nodes:
+        - - [dropout_1, 0, 0]
+        name: maxpooling2d_1
+      - class_name: Convolution2D
+        config:
+          W_constraint: null
+          W_regularizer: null
+          activation: relu
+          activity_regularizer: null
+          b_constraint: null
+          b_regularizer: null
+          bias: true
+          border_mode: valid
+          dim_ordering: tf
+          init: glorot_uniform
+          name: convolution2d_3
+          nb_col: 3
+          nb_filter: 64
+          nb_row: 3
+          subsample: *id001
+          trainable: true
+        inbound_nodes:
+        - - [maxpooling2d_1, 0, 0]
+        name: convolution2d_3
+      - class_name: Convolution2D
+        config:
+          W_constraint: null
+          W_regularizer: null
+          activation: relu
+          activity_regularizer: null
+          b_constraint: null
+          b_regularizer: null
+          bias: true
+          border_mode: valid
+          dim_ordering: tf
+          init: glorot_uniform
+          name: convolution2d_4
+          nb_col: 3
+          nb_filter: 64
+          nb_row: 3
+          subsample: *id001
+          trainable: true
+        inbound_nodes:
+        - - [convolution2d_3, 0, 0]
+        name: convolution2d_4
+      - class_name: Dropout
+        config: {name: dropout_2, p: 0.2, trainable: true}
+        inbound_nodes:
+        - - [convolution2d_4, 0, 0]
+        name: dropout_2
+      - class_name: MaxPooling2D
+        config:
+          border_mode: valid
+          dim_ordering: tf
+          name: maxpooling2d_2
+          pool_size: &id003 !!python/tuple [2, 2]
+          strides: *id003
+          trainable: true
+        inbound_nodes:
+        - - [dropout_2, 0, 0]
+        name: maxpooling2d_2
+      - class_name: Convolution2D
+        config:
+          W_constraint: null
+          W_regularizer: null
+          activation: relu
+          activity_regularizer: null
+          b_constraint: null
+          b_regularizer: null
+          bias: true
+          border_mode: valid
+          dim_ordering: tf
+          init: glorot_uniform
+          name: convolution2d_5
+          nb_col: 3
+          nb_filter: 128
+          nb_row: 3
+          subsample: *id001
+          trainable: true
+        inbound_nodes:
+        - - [maxpooling2d_2, 0, 0]
+        name: convolution2d_5
+      - class_name: MaxPooling2D
+        config:
+          border_mode: valid
+          dim_ordering: tf
+          name: maxpooling2d_3
+          pool_size: &id004 !!python/tuple [2, 2]
+          strides: *id004
+          trainable: true
+        inbound_nodes:
+        - - [convolution2d_5, 0, 0]
+        name: maxpooling2d_3
+      - class_name: Flatten
+        config: {name: flatten_1, trainable: true}
+        inbound_nodes:
+        - - [maxpooling2d_3, 0, 0]
+        name: flatten_1
+      - class_name: Dense
+        config:
+          W_constraint: null
+          W_regularizer: null
+          activation: relu
+          activity_regularizer: null
+          b_constraint: null
+          b_regularizer: null
+          bias: true
+          init: glorot_uniform
+          input_dim: !!python/object/apply:numpy.core.multiarray.scalar
+          - !!python/object/apply:numpy.dtype
+            args: [i8, 0, 1]
+            state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+          - !!binary |
+            gAMAAAAAAAA=
+          name: dense_1
+          output_dim: 1024
+          trainable: true
+        inbound_nodes:
+        - - [flatten_1, 0, 0]
+        name: dense_1
+      name: vision
+      output_layers:
+      - [dense_1, 0, 0]
+    inbound_nodes:
+    - - [train_input_img, 0, 0]
+    name: vision
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple [null, 7]
+      input_dtype: float32
+      name: train_input_idx
+      sparse: false
+    inbound_nodes: []
+    name: train_input_idx
+  - class_name: Model
+    config:
+      input_layers:
+      - [input_2, 0, 0]
+      layers:
+      - class_name: InputLayer
+        config:
+          batch_input_shape: !!python/tuple [null, 1024]
+          input_dtype: float32
+          name: input_2
+          sparse: false
+        inbound_nodes: []
+        name: input_2
+      - class_name: Dense
+        config: {W_constraint: null, W_regularizer: null, activation: relu, activity_regularizer: null,
+          b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform,
+          input_dim: 1024, name: dense_2, output_dim: 512, trainable: true}
+        inbound_nodes:
+        - - [input_2, 0, 0]
+        name: dense_2
+      - class_name: Dense
+        config: {W_constraint: null, W_regularizer: null, activation: softmax, activity_regularizer: null,
+          b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform,
+          input_dim: 512, name: dense_3, output_dim: 7, trainable: true}
+        inbound_nodes:
+        - - [dense_2, 0, 0]
+        name: dense_3
+      name: counter
+      output_layers:
+      - [dense_3, 0, 0]
+    inbound_nodes:
+    - - [vision, 1, 0]
+    name: counter
+  - class_name: Model
+    config:
+      input_layers:
+      - [input_3, 0, 0]
+      - [input_4, 0, 0]
+      layers:
+      - class_name: InputLayer
+        config:
+          batch_input_shape: !!python/tuple [null, 1024]
+          input_dtype: float32
+          name: input_3
+          sparse: false
+        inbound_nodes: []
+        name: input_3
+      - class_name: InputLayer
+        config:
+          batch_input_shape: !!python/tuple [null, 7]
+          input_dtype: float32
+          name: input_4
+          sparse: false
+        inbound_nodes: []
+        name: input_4
+      - class_name: Merge
+        config:
+          arguments: {}
+          concat_axis: -1
+          dot_axes: -1
+          mode: concat
+          mode_type: raw
+          name: merge_1
+          output_mask: null
+          output_mask_type: raw
+          output_shape: null
+          output_shape_type: raw
+        inbound_nodes:
+        - - [input_3, 0, 0]
+          - [input_4, 0, 0]
+        name: merge_1
+      - class_name: Dense
+        config: {W_constraint: null, W_regularizer: null, activation: relu, activity_regularizer: null,
+          b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform,
+          input_dim: 1031, name: dense_4, output_dim: 512, trainable: true}
+        inbound_nodes:
+        - - [merge_1, 0, 0]
+        name: dense_4
+      - class_name: Dense
+        config: {W_constraint: null, W_regularizer: null, activation: relu, activity_regularizer: null,
+          b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform,
+          input_dim: 512, name: dense_5, output_dim: 512, trainable: true}
+        inbound_nodes:
+        - - [dense_4, 0, 0]
+        name: dense_5
+      - class_name: Dense
+        config: {W_constraint: null, W_regularizer: null, activation: softmax, activity_regularizer: null,
+          b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform,
+          input_dim: 512, name: dense_6, output_dim: 10, trainable: true}
+        inbound_nodes:
+        - - [dense_5, 0, 0]
+        name: dense_6
+      name: detector
+      output_layers:
+      - [dense_6, 0, 0]
+    inbound_nodes:
+    - - [vision, 1, 0]
+      - [train_input_idx, 0, 0]
+    name: detector
+  name: model_1
+  output_layers:
+  - [counter, 1, 0]
+  - [detector, 1, 0]
+keras_version: 1.2.0
