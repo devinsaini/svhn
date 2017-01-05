@@ -3,10 +3,10 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import Iterator
 
 class SVHNImageDataGenerator(ImageDataGenerator):
-	def flow(self, Ximg, Xidx, ycount, ylabel, batch_size=32, shuffle=True, seed=None,
+	def flow(self, Ximg, Xidx, ylabel, batch_size=32, shuffle=True, seed=None,
              save_to_dir=None, save_prefix='', save_format='jpeg'):
 		return SVHNNumpyArrayIterator(
-            Ximg, Xidx, ycount, ylabel, self,
+            Ximg, Xidx, ylabel, self,
             batch_size=batch_size, shuffle=shuffle, seed=seed,
             dim_ordering=self.dim_ordering,
             save_to_dir=save_to_dir, save_prefix=save_prefix, save_format=save_format)
@@ -14,7 +14,7 @@ class SVHNImageDataGenerator(ImageDataGenerator):
 
 class SVHNNumpyArrayIterator(Iterator):
 
-    def __init__(self, Ximg, Xidx, ycount, ylabel, image_data_generator,
+    def __init__(self, Ximg, Xidx, ylabel, image_data_generator,
                  batch_size=32, shuffle=False, seed=None,
                  dim_ordering='default',
                  save_to_dir=None, save_prefix='', save_format='jpeg'):
@@ -23,7 +23,6 @@ class SVHNNumpyArrayIterator(Iterator):
             dim_ordering = K.image_dim_ordering()
         self.Ximg = np.asarray(Ximg)
         self.Xidx = np.asarray(Xidx)
-        self.ycount = np.asarray(ycount)
         self.ylabel = np.asarray(ylabel)
         if self.Ximg.ndim != 4:
             raise ValueError('Input data in `NumpyArrayIterator` '
@@ -60,8 +59,7 @@ class SVHNNumpyArrayIterator(Iterator):
             ximg = self.image_data_generator.standardize(ximg)
             batch_ximg[i] = ximg
 
-        batch_ycount = self.ycount[index_array]
         batch_ylabel = self.ylabel[index_array]
         batch_Xidx = self.Xidx[index_array]
-        return [batch_ximg, batch_Xidx], [batch_ycount, batch_ylabel]
+        return [batch_ximg, batch_Xidx], batch_ylabel
 	
