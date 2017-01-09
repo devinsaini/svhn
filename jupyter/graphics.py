@@ -38,9 +38,9 @@ def showTrainingHistory(history):
 	plt.legend(['train', 'test'], loc='upper left')
 	plt.show()
 
-def showCNNConv(model, n, X_sample):
+def showCNNConv(model, n, X_sample, X_s):
     layeroutfunc = K.function([model.layers[0].input, K.learning_phase()],[model.layers[n].output])
-    layerout = np.array(layeroutfunc([X_sample[np.newaxis,:], False]))[0]
+    layerout = np.array(layeroutfunc([X_s[np.newaxis,:], False]))[0]
     l = np.rollaxis(layerout, 3, 1)[0]
     print "{} convolutions in layer {}".format(l.shape[0], n)
     
@@ -58,8 +58,3 @@ def showCNNConv(model, n, X_sample):
         ax = plt.subplot2grid((ncols,3*ncols), (int(i/ncols), ncols+2*int(i%ncols)), rowspan=1, colspan=2)
         ax.imshow(l[i], cmap='gray', interpolation='none')
         ax.axis('off')
-
-def showDenseConv(model, n, X_sample):
-    layeroutfunc = K.function([model.layers[0].input, K.learning_phase()],[model.layers[n].output])
-    layerout = np.array(layeroutfunc([X_sample, False]))[0]
-    plt.bar(np.arange(len(layerout[0])),layerout[0])
