@@ -3,6 +3,52 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import Iterator
 
 class SVHNImageDataGenerator(ImageDataGenerator):
+	def standardize(self, x):
+		if self.preprocessing_function:
+			x = self.preprocessing_function(x)
+		if self.rescale:
+			x *= self.rescale
+		# x is a single image, so it doesn't have image number at index 0
+		img_channel_index = self.channel_index - 1
+        
+		# fix start
+		img_row_index = self.row_index - 1
+		img_col_index = self.col_index - 1
+		img_channel_index = self.channel_index - 1
+		if self.samplewise_center:
+			x -= np.mean(x, axis=(img_channel_index, img_row_index, img_col_index), keepdims=True)
+		if self.samplewise_std_normalization:
+			x /= (np.std(x, axis=(img_channel_index, img_row_index, img_col_index), keepdims=True) + 1e-7)
+		# fix end
+
+		if self.featurewise_center:
+			if self.mean is not None:
+				x -= self.mean
+			else:
+				warnings.warn('This ImageDataGenerator specifies '
+							'`featurewise_center`, but it hasn\'t'
+							'been fit on any training data. Fit it '
+							'first by calling `.fit(numpy_data)`.')
+		if self.featurewise_std_normalization:
+			if self.std is not None:
+				x /= (self.std + 1e-7)
+			else:
+				warnings.warn('This ImageDataGenerator specifies '
+                              '`featurewise_std_normalization`, but it hasn\'t'
+                              'been fit on any training data. Fit it '
+                              'first by calling `.fit(numpy_data)`.')
+		if self.zca_whitening:
+			if self.principal_components is not None:
+				flatx = np.reshape(x, (x.size))
+				whitex = np.dot(flatx, self.principal_components)
+				x = np.reshape(whitex, (x.shape[0], x.shape[1], x.shape[2]))
+			else:
+				warnings.warn('This ImageDataGenerator specifies '
+                              '`zca_whitening`, but it hasn\'t'
+                              'been fit on any training data. Fit it '
+                              'first by calling `.fit(numpy_data)`.')
+		return x
+        
 	def flow(self, Ximg, Xidx, ycount, ylabel, batch_size=32, shuffle=True, seed=None,
              save_to_dir=None, save_prefix='', save_format='jpeg'):
 		return SVHNNumpyArrayIterator(
@@ -10,6 +56,8 @@ class SVHNImageDataGenerator(ImageDataGenerator):
             batch_size=batch_size, shuffle=shuffle, seed=seed,
             dim_ordering=self.dim_ordering,
             save_to_dir=save_to_dir, save_prefix=save_prefix, save_format=save_format)
+
+
             
 
 class SVHNNumpyArrayIterator(Iterator):
