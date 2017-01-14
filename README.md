@@ -51,6 +51,8 @@ This repository contains project code, notebooks and report for Street View Hous
 3. Prediction results are shown graphically in the notebook. 
 
 ##  File description
+* Report
+	* Deep Learning Capstone Report.pdf - Project report
 * Notebooks
 	* jupyter/dataexploration.ipynb - Exploratory analysis on SVHN dataset
 	* jupyter/svhntrain.ipynb - Training notebook
@@ -61,3 +63,6 @@ This repository contains project code, notebooks and report for Street View Hous
 	* jupyter/preprocessing.py - extension of Keras ImageDataGenerator
 	* jupyter/svhn.py - utilities to load SVHN mat files and process data
 	* jupyter/keras_utils.py - DynamicPlot Keras callback to display live training plots. Used for monitoring and hyperparameter adjustment. Not used in final training.
+* Checkpoints
+	* checkpoints/model.yaml - Keras model descriptor file
+	* checkpoints/mode.hdf5 - model weights
