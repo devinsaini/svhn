@@ -17,24 +17,23 @@ This repository contains project code, notebooks and report for Street View Hous
 1. Clone this repository on your system
 2. Download and extract **Format 1** train.tar.gz and test.tar.gz from http://ufldl.stanford.edu/housenumbers/ in inputs folder. There should be train and test folders directly under inputs folder as shown below.
 
-
+```
     .
-    +-checkpoints
-    +-jupyter
-    +-inputs
-        +-train
-        |   +-1.png
-        |   +-2.png
-        |   +-...
-        |
-        +-test
-        |   +-1.png
-        |   +-2.png
-        |   +-...
-        |
-        +-custom
-            +-customimage.png
-            
+    ├── ...
+    ├── inputs
+    │   ├── train
+    |   |   ├── 1.png
+    |   |   ├── 2.png
+    |   |   └── ...
+    │   ├── test
+    |   |   ├── 1.png
+    |   |   ├── 2.png
+    |   |   └── ...
+    │   └── custom
+    |       ├── customimage.png
+    └── ...
+```
+
 ## Training
 1. You might want to backup the files in checkpoints folder since they've been trained for a long time on AWS p2.xlarge instance. If not, then delete them.
 2. Start jupyter, open svhntrain.ipynb and run all sections.
