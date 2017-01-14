@@ -51,7 +51,8 @@ This repository contains project code, notebooks and report for Street View Hous
 3. Prediction results are shown graphically in the notebook. 
 
 ##  File description
-* Report
+* Reports
+	* Capstone Proposal.pdf - Capstone proposal
 	* Deep Learning Capstone Report.pdf - Project report
 * Notebooks
 	* jupyter/dataexploration.ipynb - Exploratory analysis on SVHN dataset
