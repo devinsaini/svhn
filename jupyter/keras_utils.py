@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 class DynamicPlot(keras.callbacks.Callback):
     def __init__(self, metrics=['loss'], axes=None):
         '''
-        plot keras training metrics dynamically. Set verbose=0 in call to fit
+        keras callback to plot training metrics dynamically. Set verbose=0 in call to fit
         '''
         self.metrics = metrics
         if axes is not None:
